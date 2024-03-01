@@ -2,26 +2,44 @@ package edu.escuelaing.arem.ASE.app;
 
 import static spark.Spark.*;
 
+/**
+ * Clase que representa un servidor web implementado con SparkJava.
+ * Este servidor maneja solicitudes HTTP para realizar operaciones matemáticas
+ * y verificar palíndromos, utilizando rutas estáticas y dinámicas.
+ * Se utiliza AJAX para comunicación asíncrona entre el cliente y el servidor.
+ * Las operaciones matemáticas incluyen seno, coseno y magnitud.
+ * La verificación de palíndromos se realiza en base a una cadena de texto.
+ * Este servidor puede ejecutarse localmente o en un entorno de producción.
+ */
 public class SparkWebServer {
 
+    /**
+     * Método principal que inicia el servidor SparkJava.
+     * Configura el puerto del servidor y define las rutas estáticas y dinámicas.
+     * Las rutas estáticas sirven archivos desde el directorio /public.
+     * Las rutas dinámicas manejan solicitudes para operaciones matemáticas y verificación de palíndromos.
+     * @param args Argumentos de línea de comandos (no se utilizan en este caso).
+     */
     public static void main(String[] args) {
         port(getPort());
 
-        // Rutas estáticas
+        // Configuración de rutas estáticas
         staticFileLocation("/public");
 
-        // Rutas dinámicas
+        // Configuración de rutas dinámicas para operaciones matemáticas y verificación de palíndromos
         get("/coseno", (req, res) -> cosHtml());
         get("/seno", (req, res) -> sinHtml());
         get("/magnitud", (req, res) -> magHtml());
         get("/palindromo", (req, res) -> palindromeHtml());
 
+        // Ruta para procesar resultados de operaciones matemáticas y verificación de palíndromos
         get("/result", (req, res) -> {
             try {
                 String op = req.queryParams("op"), resp = "", chain = req.queryParams("chain");
                 Double param1 = req.queryParams("num1") != null ? Double.parseDouble(req.queryParams("num1")) : null;
                 Double param2 = req.queryParams("num2") != null ? Double.parseDouble(req.queryParams("num2")) : null;
 
+                // Procesamiento de la solicitud según el tipo de operación
                 switch (op) {
                     case "sin":
                         resp += Math.sin(param1);
@@ -227,7 +245,11 @@ public class SparkWebServer {
                 "</html>";
     }
 
-
+    /**
+     * Método privado que obtiene el puerto del servidor.
+     * Si no se especifica un puerto, se utiliza el puerto predeterminado 4567.
+     * @return El puerto del servidor.
+     */
     private static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));

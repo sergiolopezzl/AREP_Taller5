@@ -1,84 +1,132 @@
 ### Sergio Daniel Lopez Vargas
 # AREP_Taller5
-Este taller5 se crea una funcionalidad similar a Spark que es un servidor HTTP que permite el registro 
-dinámico de servicios GET y POST utilizando funciones lambda para manejar las solicitudes entrantes. 
-Este servidor web también ofrece la capacidad de configurar el directorio de archivos estáticos, 
-lo que permite servir archivos estáticos como HTML, CSS, JavaScript, imágenes, etc. Además, proporciona 
-la capacidad de cambiar dinámicamente el tipo de respuesta a "application/json" según sea necesario.
 
-### Funcionamiento
+## Introducción:
 
-1. **SLSpark**:
-  - SLSpark actúa como un enrutador para las solicitudes HTTP entrantes.
-  - Permite registrar manejadores de solicitud para rutas específicas y métodos HTTP.
-  - Cuando llega una solicitud HTTP, SLSpark determina el manejador correspondiente según la ruta y el método HTTP especificados y lo ejecuta.
+El código proporcionado implementa un servidor web utilizando SparkJava, un microframework web para Java, que permite crear aplicaciones web de manera sencilla y rápida.
 
-2. **HttpServer**:
-  - HttpServer es responsable de iniciar y ejecutar el servidor HTTP.
-  - Escucha en un puerto específico para las solicitudes entrantes.
-  - Cuando se recibe una solicitud, HttpServer la procesa, determina la acción requerida y envía la respuesta adecuada al cliente.
+## Características y Funcionalidades:
 
-3. **HttpMovie**:
-  - HttpMovie se encarga de realizar solicitudes HTTP a una API externa de películas para obtener información sobre películas específicas.
-  - Procesa las respuestas de la API y extrae la información relevante sobre las películas solicitadas.
-  - Puede almacenar en caché los datos obtenidos para futuras consultas y evitar realizar solicitudes repetidas a la API externa.
+### Rutas estáticas y dinámicas:
+* Define rutas estáticas utilizando staticFileLocation("/public"), lo que permite servir 
+archivos estáticos desde el directorio /public.
+* Define rutas dinámicas para operaciones matemáticas (/coseno, /seno, /magnitud) y para 
+verificar si una cadena es un palíndromo (/palindromo).
+* Utiliza el método get() para manejar solicitudes HTTP GET en las diferentes rutas, 
+respondiendo con HTML correspondiente a cada operación.
 
-4. **AppService**:
-  - AppService es una interfaz que define un contrato para las clases que manejan las solicitudes de la aplicación.
-  - Define un método que debe ser implementado por las clases que manejan las solicitudes de la aplicación.
-  - Permite una implementación flexible de los servicios de la aplicación, lo que facilita la modularidad y la extensibilidad del sistema.
+### Operaciones matemáticas:
+* Las operaciones de seno, coseno y magnitud se realizan mediante llamadas AJAX utilizando 
+JavaScript.
+* Los resultados de las operaciones se muestran dinámicamente en la página web sin necesidad 
+de recargarla.
+* Las operaciones se realizan en el servidor y se devuelven al cliente como respuesta a 
+las solicitudes.
 
-Este servidor web interactúa con una API externa para obtener información sobre películas.
-Utiliza una clase llamada HttpMovie para realizar solicitudes HTTP a la API de películas y procesar
-las respuestas recibidas. Esta clase gestiona la comunicación con la API, extrae la información
-relevante sobre las películas solicitadas y puede almacenar en caché los datos obtenidos para evitar
-solicitudes repetidas a la API externa.
+### Verificación de palíndromos:
+* Permite al usuario ingresar una cadena y verifica si es un palíndromo o no.
+* Al igual que las operaciones matemáticas, la verificación se realiza en el servidor y 
+se muestra el resultado dinámicamente en la página web.
 
-### Instrucciones de Ejecución
-* Clone el repositorio desde GitHub:
+## Arquitectura
+
+### Cliente (Frontend):
+* La interfaz de usuario se compone de páginas HTML y scripts JavaScript que permiten al usuario interactuar con el servidor web.
+* Utiliza tecnologías como AJAX para enviar solicitudes asíncronas al servidor y actualizar dinámicamente el contenido de la página sin necesidad de recargarla.
+* Los archivos HTML y JavaScript pueden ser servidos desde el mismo servidor web o desde un servidor web estático separado, dependiendo de los requisitos de la aplicación.
+
+### Servidor (Backend):
+* Implementado con SparkJava, un microframework web para Java que permite crear aplicaciones web de manera sencilla y rápida.
+* El servidor SparkJava maneja las solicitudes HTTP entrantes y las enruta a las correspondientes operaciones matemáticas o de verificación de palíndromos.
+* Utiliza un conjunto de rutas definidas para cada operación matemática (coseno, seno, magnitud) y para verificar si una cadena es un palíndromo.
+* Las operaciones matemáticas y la verificación de palíndromos se realizan en el servidor y las respuestas se devuelven al cliente en formato HTML dinámico.
+
+### Contenedores Docker:
+* El servidor web implementado con SparkJava se empaqueta en un contenedor de Docker para su fácil distribución y ejecución en cualquier entorno compatible con Docker.
+* Cada operación matemática y la verificación de palíndromos pueden encapsularse en contenedores separados para modularidad y escalabilidad.
+* Se utiliza un Dockerfile para definir cómo construir las imágenes de contenedor del servidor SparkJava y de las operaciones matemáticas y de verificación de palíndromos.
+* Las imágenes de contenedor se pueden construir localmente y luego enviar a Docker Hub para su almacenamiento y distribución, o pueden descargarse directamente desde Docker Hub para su ejecución en entornos de producción o en la nube.
+
+### Ciclo de Desarrollo y Despliegue:
+* Durante el desarrollo local, los cambios en el código pueden probarse fácilmente utilizando contenedores locales antes de subir las imágenes a Docker Hub.
+* Las imágenes de contenedor se pueden construir y ejecutar localmente para realizar pruebas de integración y depuración.
+* Una vez que las imágenes de contenedor están listas y probadas localmente, pueden enviarse a Docker Hub para su implementación en la nube.
+* Las imágenes pueden desplegarse en cualquier entorno compatible con Docker, como Kubernetes, AWS, Azure, Google Cloud, etc.
+
+## Instrucciones de Ejecución
+Abra Docker realice los siguientes comandos:
+* Verificar que no hayan instancias ya creadas:
 
 ```
-git clone https://github.com/sergiolopezzl/AREP_Taller3.git
+docker images
 ```
 
-* Navegue al directorio del proyecto: 
+![prueba9.png](src/main/resources/public/img/prueba9.png)
+
+* Hacer pull para descargar la imagen del repositorio
 
 ```
-cd AREP_Taller3
+docker pull sergiolopezzv/taller5:latest
 ```
 
-* Compile el proyecto y descargue las dependencias con Maven: 
+![prueba10.png](src/main/resources/public/img/prueba10.png)
+
+* Crear contendor del la imagen descargada
 
 ```
-mvn clean package
+docker run -d -p 34000:46000 --name firstdockercontainer sergiolopezzv/taller5
 ```
 
-* Ejecute el servidor utilizando el siguiente comando: 
+* Verificar en docker que se este corriendo correctamente
 
-```
-mvn exec:java '-Dexec.mainClass=edu.escuelaing.arem.ASE.app.App'
-```
+![prueba18.png](src/main/resources/public/img/prueba18.png)
+![prueba19.png](src/main/resources/public/img/prueba19.png)
 
-Una vez que el servidor esté en funcionamiento, acceda a 
-http://localhost:35000/search.html desde su navegador para comenzar a buscar películas.
+Ya puedes acceder a http://localhost:34000* y verificar el funcionamiento del servidor
 
 ### Pruebas
-* Se realizó la petición a http://localhost:35000/index.html
+* Se realizó la petición a http://localhost:34000 (Se puede ver como accede a todas los archivos de forma estatica)
+![prueba12.png](src/main/resources/public/img/prueba12.png)
+* Se realizó la petición a http://localhost:34000/seno (Se puede observar como esta funcionando correctamente la operacion seno)
+![prueba13.png](src/main/resources/public/img/prueba13.png) (Se puede observar como esta funcionando correctamente la operacion coseno)
+* Se realizó la petición a http://localhost:34000/coseno
+![prueba14.png](src/main/resources/public/img/prueba14.png)
+* Se realizó la petición a http://localhost:34000/palindromo (Se puede observar como esta funcionando correctamente la verificacion de palindromo)
+![prueba15.png](src/main/resources/public/img/prueba15.png)
+![prueba16.png](src/main/resources/public/img/prueba16.png)
+* Se realizó la petición a http://localhost:34000/magnitud (Se puede observar como esta funcionando correctamente la operacion del vector)
+![prueba17.png](src/main/resources/public/img/prueba17.png)
+
+## Creacion de imagenes locales 
+* Compilar proyecto
+
 ![prueba1.png](src/main/resources/public/img/prueba1.png)
-* Se realizó la petición a http://localhost:35000/search.html
+
 ![prueba2.png](src/main/resources/public/img/prueba2.png)
-* Se realizó la petición a http://localhost:35000/cat.png
+
+* Crear contenedor del servidor
+
 ![prueba3.png](src/main/resources/public/img/prueba3.png)
-* Se realizó la petición a http://localhost:35000/search.html y se busco Halo
+
+* Crear imagen del servidor
+
 ![prueba4.png](src/main/resources/public/img/prueba4.png)
-* Aca se puede observar como se obteniene el GET
+
+Aqui ya puedes acceder localmente a http://localhost:34000*
+
+## Creacion de imagen web con Docker hub
+
+* Construye imagen en el respectivo repositorio
+
 ![prueba5.png](src/main/resources/public/img/prueba5.png)
 
-### Diseño y Extensibilidad
+* Hacer login al repositorio anterior
 
-La modularidad y la flexibilidad están integradas en el sistema a través de varias clases y componentes,
-como HttpServer, SLSpark y AppService. Estas clases permiten construir un sistema que puede manejar
-eficientemente las solicitudes HTTP entrantes, interactuar con servicios externos y proporcionar respuestas
-adecuadas a los clientes que realizan las solicitudes. La arquitectura modular facilita la extensibilidad
-y escalabilidad del sistema, lo que permite agregar nuevas funcionalidades y adaptarse a los cambios en
-los requisitos con relativa facilidad.
+![prueba6.png](src/main/resources/public/img/prueba6.png)
+
+* Subir la imgen con el servidor terminado (push)
+
+![prueba7.png](src/main/resources/public/img/prueba7.png)
+
+Ya estará disponible para poder hacerle pull y abrir el servidor desde cualquier PC
+
