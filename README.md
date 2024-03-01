@@ -88,8 +88,8 @@ Ya puedes acceder a http://localhost:34000* y verificar el funcionamiento del se
 * Se realizó la petición a http://localhost:34000 (Se puede ver como accede a todas los archivos de forma estatica)
 ![prueba12.png](src/main/resources/public/img/prueba12.png)
 * Se realizó la petición a http://localhost:34000/seno (Se puede observar como esta funcionando correctamente la operacion seno)
-![prueba13.png](src/main/resources/public/img/prueba13.png) (Se puede observar como esta funcionando correctamente la operacion coseno)
-* Se realizó la petición a http://localhost:34000/coseno
+![prueba13.png](src/main/resources/public/img/prueba13.png) 
+* Se realizó la petición a http://localhost:34000/coseno (Se puede observar como esta funcionando correctamente la operacion coseno)
 ![prueba14.png](src/main/resources/public/img/prueba14.png)
 * Se realizó la petición a http://localhost:34000/palindromo (Se puede observar como esta funcionando correctamente la verificacion de palindromo)
 ![prueba15.png](src/main/resources/public/img/prueba15.png)
