@@ -53,6 +53,8 @@ se muestra el resultado dinámicamente en la página web.
 * Una vez que las imágenes de contenedor están listas y probadas localmente, pueden enviarse a Docker Hub para su implementación en la nube.
 * Las imágenes pueden desplegarse en cualquier entorno compatible con Docker, como Kubernetes, AWS, Azure, Google Cloud, etc.
 
+Link repositorio docker hub: https://hub.docker.com/repository/docker/sergiolopezzv/taller5/general
+
 ## Instrucciones de Ejecución
 Abra Docker realice los siguientes comandos:
 * Verificar que no hayan instancias ya creadas:
